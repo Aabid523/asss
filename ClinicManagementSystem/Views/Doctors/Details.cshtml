@@ -1,0 +1,15 @@
+@model Doctor
+@{
+    ViewData["Title"] = "Doctor Details";
+}
+<div class="page-heading"><h1>Doctor Details</h1></div>
+
+<div class="panel form-panel">
+    <dl class="row mb-0">
+        <dt class="col-sm-3">Full Name</dt><dd class="col-sm-9">Dr. @Model.FullName</dd>
+        <dt class="col-sm-3">Specialty</dt><dd class="col-sm-9">@Model.Specialty?.Name</dd>
+        <dt class="col-sm-3">Phone</dt><dd class="col-sm-9">@Model.PhoneNumber</dd>
+        <dt class="col-sm-3">Email</dt><dd class="col-sm-9">@Model.Email</dd>
+    </dl>
+    <a asp-action="Index" class="btn btn-clinic-outline mt-3">Back to list</a>
+</div>

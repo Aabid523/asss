@@ -1,0 +1,50 @@
+@model RegisterStaffViewModel
+@{
+    ViewData["Title"] = "Add Staff Account";
+}
+<div class="page-heading">
+    <h1>Add Staff Account</h1>
+</div>
+
+<div class="panel form-panel">
+    <div asp-validation-summary="All" class="text-danger small mb-3"></div>
+    <form asp-controller="Account" asp-action="RegisterStaff" method="post">
+        <div class="mb-3">
+            <label asp-for="FullName" class="form-label"></label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Role" class="form-label"></label>
+            <select asp-for="Role" class="form-select">
+                <option value="Receptionist">Receptionist</option>
+                <option value="Doctor">Doctor</option>
+                <option value="Admin">Admin</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label"></label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="ConfirmPassword" class="form-label"></label>
+            <input asp-for="ConfirmPassword" class="form-control" />
+            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+        </div>
+        <button type="submit" class="btn btn-clinic-primary">Create Account</button>
+    </form>
+    <p class="small text-muted mt-3">
+        Tip: if the new staff member is a Doctor, remember to also add their record under
+        <a asp-controller="Doctors" asp-action="Create">Doctors</a> so they appear in appointment dropdowns.
+    </p>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,36 @@
+@model Doctor
+@{
+    ViewData["Title"] = "Edit Doctor";
+}
+<div class="page-heading"><h1>Edit Doctor</h1></div>
+
+<div class="panel form-panel">
+    <div asp-validation-summary="All" class="text-danger small mb-3"></div>
+    <form asp-action="Edit" method="post">
+        <input type="hidden" asp-for="Id" />
+        <div class="mb-3">
+            <label asp-for="FullName" class="form-label"></label>
+            <input asp-for="FullName" class="form-control" />
+            <span asp-validation-for="FullName" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="SpecialtyId" class="form-label"></label>
+            <select asp-for="SpecialtyId" asp-items="ViewBag.SpecialtyId" class="form-select"></select>
+            <span asp-validation-for="SpecialtyId" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger small"></span>
+        </div>
+        <button type="submit" class="btn btn-clinic-primary">Save Changes</button>
+        <a asp-action="Index" class="btn btn-clinic-outline">Cancel</a>
+    </form>
+</div>
+
+@section Scripts { @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} }

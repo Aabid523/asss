@@ -1,0 +1,23 @@
+@model Specialty
+@{
+    ViewData["Title"] = "Specialty Details";
+}
+<div class="page-heading"><h1>Specialty Details</h1></div>
+
+<div class="panel form-panel">
+    <dl class="row mb-0">
+        <dt class="col-sm-3">Name</dt><dd class="col-sm-9">@Model.Name</dd>
+        <dt class="col-sm-3">Description</dt><dd class="col-sm-9">@(Model.Description ?? "-")</dd>
+        <dt class="col-sm-3">Doctors</dt>
+        <dd class="col-sm-9">
+            @if (Model.Doctors.Any())
+            {
+                <ul class="mb-0 ps-3">
+                    @foreach (var d in Model.Doctors) { <li>@d.FullName</li> }
+                </ul>
+            }
+            else { <span class="text-muted">None assigned</span> }
+        </dd>
+    </dl>
+    <a asp-action="Index" class="btn btn-clinic-outline mt-3">Back to list</a>
+</div>

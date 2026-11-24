@@ -1,0 +1,14 @@
+@model Visit
+@{
+    ViewData["Title"] = "Delete Visit Record";
+}
+<div class="page-heading"><h1>Delete Visit Record</h1></div>
+
+<div class="panel form-panel">
+    <p>Are you sure you want to delete this visit record for <strong>@Model.Patient?.FullName</strong> dated <strong>@Model.VisitDate.ToString("MMM dd, yyyy")</strong>?</p>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-clinic-danger">Yes, Delete</button>
+        <a asp-action="Index" class="btn btn-clinic-outline">Cancel</a>
+    </form>
+</div>

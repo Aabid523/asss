@@ -1,0 +1,49 @@
+@model Appointment
+@{
+    ViewData["Title"] = "Book Appointment";
+}
+<div class="page-heading"><h1>Book Appointment</h1></div>
+
+<div class="panel form-panel">
+    <div asp-validation-summary="All" class="text-danger small mb-3"></div>
+    <form asp-action="Create" method="post">
+        <div class="mb-3">
+            <label asp-for="PatientId" class="form-label"></label>
+            <select asp-for="PatientId" asp-items="ViewBag.PatientId" class="form-select">
+                <option value="">-- Select Patient --</option>
+            </select>
+            <span asp-validation-for="PatientId" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="DoctorId" class="form-label"></label>
+            <select asp-for="DoctorId" asp-items="ViewBag.DoctorId" class="form-select">
+                <option value="">-- Select Doctor --</option>
+            </select>
+            <span asp-validation-for="DoctorId" class="text-danger small"></span>
+        </div>
+        <div class="row">
+            <div class="col-sm-7 mb-3">
+                <label asp-for="AppointmentDate" class="form-label"></label>
+                <input asp-for="AppointmentDate" class="form-control" type="datetime-local" />
+                <span asp-validation-for="AppointmentDate" class="text-danger small"></span>
+            </div>
+            <div class="col-sm-5 mb-3">
+                <label asp-for="DurationMinutes" class="form-label"></label>
+                <input asp-for="DurationMinutes" class="form-control" type="number" min="10" max="240" step="5" />
+                <span asp-validation-for="DurationMinutes" class="text-danger small"></span>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Status" class="form-label"></label>
+            <select asp-for="Status" class="form-select" asp-items="Html.GetEnumSelectList<AppointmentStatus>()"></select>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Notes" class="form-label"></label>
+            <textarea asp-for="Notes" class="form-control" rows="2"></textarea>
+        </div>
+        <button type="submit" class="btn btn-clinic-primary">Book Appointment</button>
+        <a asp-action="Index" class="btn btn-clinic-outline">Cancel</a>
+    </form>
+</div>
+
+@section Scripts { @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} }

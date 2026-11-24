@@ -1,0 +1,115 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="stat-grid">
+    <div class="stat-card">
+        <div class="stat-value">@Model.TotalPatients</div>
+        <div class="stat-label"><i class="bi bi-people"></i> Total Patients</div>
+    </div>
+    <div class="stat-card accent-2">
+        <div class="stat-value">@Model.TotalDoctors</div>
+        <div class="stat-label"><i class="bi bi-person-badge"></i> Total Doctors</div>
+    </div>
+    <div class="stat-card accent-3">
+        <div class="stat-value">@Model.TodaysAppointments</div>
+        <div class="stat-label"><i class="bi bi-calendar-check"></i> Today's Appointments</div>
+    </div>
+    <div class="stat-card accent-4">
+        <div class="stat-value">@Model.TotalVisits</div>
+        <div class="stat-label"><i class="bi bi-clipboard2-pulse"></i> Total Visits Logged</div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-lg-7">
+        <div class="panel">
+            <div class="panel-title">Appointments booked — last 7 days</div>
+            <canvas id="appointmentsChart" height="110"></canvas>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="panel">
+            <div class="panel-title">Appointments by status</div>
+            <canvas id="statusChart" height="110"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-title">Upcoming appointments</div>
+    @if (!Model.UpcomingAppointments.Any())
+    {
+        <div class="empty-state">
+            <i class="bi bi-calendar-x"></i>
+            No upcoming appointments scheduled.
+        </div>
+    }
+    else
+    {
+        <table class="table-clinic">
+            <thead>
+                <tr>
+                    <th>Date &amp; Time</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var appt in Model.UpcomingAppointments)
+                {
+                    <tr>
+                        <td>@appt.AppointmentDate.ToString("ddd, MMM dd - h:mm tt")</td>
+                        <td>@appt.Patient?.FullName</td>
+                        <td>Dr. @appt.Doctor?.FullName</td>
+                        <td><a asp-controller="Appointments" asp-action="Details" asp-route-id="@appt.Id" class="btn btn-sm btn-clinic-outline">View</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script>
+        const apptLabels = @Html.Raw(Json.Serialize(Model.Last7DaysLabels));
+        const apptCounts = @Html.Raw(Json.Serialize(Model.Last7DaysCounts));
+        const statusLabels = @Html.Raw(Json.Serialize(Model.StatusLabels));
+        const statusCounts = @Html.Raw(Json.Serialize(Model.StatusCounts));
+
+        new Chart(document.getElementById('appointmentsChart'), {
+            type: 'bar',
+            data: {
+                labels: apptLabels,
+                datasets: [{
+                    label: 'Appointments',
+                    data: apptCounts,
+                    backgroundColor: '#0F6E66',
+                    borderRadius: 3,
+                    maxBarThickness: 34
+                }]
+            },
+            options: {
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+            }
+        });
+
+        new Chart(document.getElementById('statusChart'), {
+            type: 'doughnut',
+            data: {
+                labels: statusLabels,
+                datasets: [{
+                    data: statusCounts,
+                    backgroundColor: ['#0F6E66', '#3F8F5F', '#C0392B']
+                }]
+            },
+            options: {
+                plugins: { legend: { position: 'bottom' } }
+            }
+        });
+    </script>
+}

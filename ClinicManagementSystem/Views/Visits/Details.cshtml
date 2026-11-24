@@ -1,0 +1,22 @@
+@model Visit
+@{
+    ViewData["Title"] = "Visit Record Details";
+}
+<div class="page-heading"><h1>Visit Record Details</h1></div>
+
+<div class="panel form-panel">
+    <dl class="row mb-0">
+        <dt class="col-sm-3">Patient</dt><dd class="col-sm-9">@Model.Patient?.FullName</dd>
+        <dt class="col-sm-3">Doctor</dt><dd class="col-sm-9">Dr. @Model.Doctor?.FullName</dd>
+        <dt class="col-sm-3">Visit Date</dt><dd class="col-sm-9">@Model.VisitDate.ToString("MMM dd, yyyy")</dd>
+        <dt class="col-sm-3">Diagnosis</dt><dd class="col-sm-9">@(Model.Diagnosis ?? "-")</dd>
+        <dt class="col-sm-3">Treatment</dt><dd class="col-sm-9">@(Model.Treatment ?? "-")</dd>
+        <dt class="col-sm-3">Notes</dt><dd class="col-sm-9">@(Model.Notes ?? "-")</dd>
+        @if (Model.Appointment != null)
+        {
+            <dt class="col-sm-3">Linked Appointment</dt>
+            <dd class="col-sm-9"><a asp-controller="Appointments" asp-action="Details" asp-route-id="@Model.Appointment.Id">View appointment</a></dd>
+        }
+    </dl>
+    <a asp-action="Index" class="btn btn-clinic-outline mt-3">Back to list</a>
+</div>

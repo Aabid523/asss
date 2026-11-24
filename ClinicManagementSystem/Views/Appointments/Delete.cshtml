@@ -1,0 +1,18 @@
+@model Appointment
+@{
+    ViewData["Title"] = "Cancel / Delete Appointment";
+}
+<div class="page-heading"><h1>Delete Appointment</h1></div>
+
+<div class="panel form-panel">
+    <p>
+        Are you sure you want to delete the appointment for <strong>@Model.Patient?.FullName</strong>
+        with <strong>Dr. @Model.Doctor?.FullName</strong> on
+        <strong>@Model.AppointmentDate.ToString("MMM dd, yyyy h:mm tt")</strong>?
+    </p>
+    <form asp-action="Delete" method="post">
+        <input type="hidden" asp-for="Id" />
+        <button type="submit" class="btn btn-clinic-danger">Yes, Delete</button>
+        <a asp-action="Index" class="btn btn-clinic-outline">Cancel</a>
+    </form>
+</div>

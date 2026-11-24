@@ -1,0 +1,25 @@
+@model Specialty
+@{
+    ViewData["Title"] = "New Specialty";
+}
+<div class="page-heading"><h1>New Specialty</h1></div>
+
+<div class="panel form-panel">
+    <div asp-validation-summary="All" class="text-danger small mb-3"></div>
+    <form asp-action="Create" method="post">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="Description" class="text-danger small"></span>
+        </div>
+        <button type="submit" class="btn btn-clinic-primary">Save</button>
+        <a asp-action="Index" class="btn btn-clinic-outline">Cancel</a>
+    </form>
+</div>
+
+@section Scripts { @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} }

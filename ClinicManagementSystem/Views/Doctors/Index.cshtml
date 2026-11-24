@@ -1,0 +1,52 @@
+@model IEnumerable<Doctor>
+@{
+    ViewData["Title"] = "Doctors";
+}
+<div class="page-heading">
+    <h1>Doctors</h1>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create" class="btn btn-clinic-primary"><i class="bi bi-plus-lg"></i> New Doctor</a>
+    }
+</div>
+
+<div class="panel p-0">
+    <div class="table-toolbar px-3 pt-3">
+        <form method="get" class="d-flex gap-2">
+            <input type="text" name="search" value="@ViewData["CurrentSearch"]" class="form-control form-control-sm" placeholder="Search by name or email..." style="width:260px;" />
+            <button type="submit" class="btn btn-sm btn-clinic-outline"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty-state"><i class="bi bi-person-badge"></i> No doctors found.</div>
+    }
+    else
+    {
+        <table class="table-clinic">
+            <thead>
+                <tr><th>Full Name</th><th>Specialty</th><th>Phone</th><th>Email</th><th></th></tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>Dr. @item.FullName</td>
+                        <td>@item.Specialty?.Name</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@item.Email</td>
+                        <td class="d-flex gap-2">
+                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-clinic-outline">View</a>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-clinic-outline">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-clinic-danger">Delete</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
